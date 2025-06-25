@@ -22,7 +22,7 @@ namespace WinFormsAuthTest
             {
                 ClientId = "550344567807-kd6kvfomtl9kjr7j4ro1ba8dhgjf02ap.apps.googleusercontent.com",
                 ClientSecret = "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",
-                RedirectUri = "http://localhost:54321/",
+                RedirectUri = "http://localhost:60000/",
                 AuthorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth",
                 TokenEndpoint = "https://oauth2.googleapis.com/token",
                 UserInfoEndpoint = "https://openidconnect.googleapis.com/v1/userinfo",

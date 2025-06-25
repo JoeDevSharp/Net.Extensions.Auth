@@ -32,9 +32,9 @@ namespace Net.Extensions.Auth.Providers.OAuth2
                 $"&access_type=offline" +
                 $"&prompt=consent";
 
-            var code = await OAuth2LoginHelper.GetCodeViaBrowserAsync(authUrl, _options.RedirectUri);
+            var code = OAuth2LoginHelper.GetCodeViaBrowser(authUrl, _options.RedirectUri);
+            
             _token = await OAuth2LoginHelper.ExchangeCodeForTokenAsync(code, _options);
-
             _user = await OAuth2LoginHelper.GetUserInfoAsync(_token.AccessToken);
 
             return _user;
