@@ -1,6 +1,6 @@
-﻿using Net.Extensions.Auth.Core;
-using Net.Extensions.Auth.Interfaces;
-using Net.Extensions.OAuth2.OAuth2;
+﻿using Net.Extensions.OAuth2.Enums;
+using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;
 

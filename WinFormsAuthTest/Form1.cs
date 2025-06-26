@@ -1,4 +1,5 @@
-using Net.Extensions.Auth.Core;
+
+using Net.Extensions.OAuth2;
 using Net.Extensions.OAuth2.Providers;
 
 namespace WinFormsAuthTest

@@ -1,4 +1,4 @@
-﻿namespace Net.Extensions.Auth.Exceptions
+﻿namespace Net.Extensions.OAuth2
 {
     public class AuthException : Exception
     {

@@ -1,11 +1,13 @@
-﻿using Net.Extensions.Auth.Interfaces;
+﻿using Net.Extensions.OAuth2.Enums;
+using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Models;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Web;
 
-namespace Net.Extensions.OAuth2.OAuth2
+namespace Net.Extensions.OAuth2
 {
     internal static class OAuth2Helper
     {

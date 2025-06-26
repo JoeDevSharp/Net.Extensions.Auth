@@ -1,6 +1,6 @@
-﻿using Net.Extensions.Auth.Core;
-using Net.Extensions.Auth.Interfaces;
-using Net.Extensions.OAuth2.OAuth2;
+﻿using Net.Extensions.OAuth2.Enums;
+using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -10,6 +10,8 @@ namespace Net.Extensions.OAuth2.Providers
     {
         public bool IsAuthenticated => _token != null;
         public AuthUser? CurrentUser => _user;
+
+        AuthUser? IAuthProvider.CurrentUser => throw new NotImplementedException();
 
         private readonly OAuth2Options _options = new();
         private OAuth2Token? _token;
@@ -56,7 +58,7 @@ namespace Net.Extensions.OAuth2.Providers
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("Net.Extensions.Auth"); // requerido por GitHub
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Net.Extensions.OAuth2"); // requerido por GitHub
 
             var url = string.IsNullOrWhiteSpace(userInfoUrl)
                 ? "https://api.github.com/user"
@@ -100,6 +102,11 @@ namespace Net.Extensions.OAuth2.Providers
             _token = null;
             _user = null;
             return Task.CompletedTask;
+        }
+
+        Task<AuthUser?> IAuthProvider.LoginAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

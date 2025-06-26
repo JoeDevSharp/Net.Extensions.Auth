@@ -12,4 +12,11 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Abstracts\Abstracts.csproj" />
+    <ProjectReference Include="..\..\Enums\Enums.csproj" />
+    <ProjectReference Include="..\..\Extensions\Extensions.csproj" />
+    <ProjectReference Include="..\..\Models\Models.csproj" />
+  </ItemGroup>
+
 </Project>

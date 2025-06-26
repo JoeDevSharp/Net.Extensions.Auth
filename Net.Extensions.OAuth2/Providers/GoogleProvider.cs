@@ -1,6 +1,5 @@
-﻿using Net.Extensions.Auth.Core;
-using Net.Extensions.Auth.Interfaces;
-using Net.Extensions.OAuth2.OAuth2;
+﻿using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -57,7 +56,7 @@ namespace Net.Extensions.OAuth2.Providers
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("Net.Extensions.Auth");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Net.Extensions.OAuth2");
 
             var url = string.IsNullOrWhiteSpace(userInfoUrl)
                 ? "https://openidconnect.googleapis.com/v1/userinfo"

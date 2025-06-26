@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 
-namespace Net.Extensions.Auth.Utils
+namespace Net.Extensions.OAuth2.Utils
 {
     public static class RsaKeyUtils
     {

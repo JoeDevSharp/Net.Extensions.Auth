@@ -1,6 +1,7 @@
-﻿using Net.Extensions.Auth.Interfaces;
+﻿using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Models;
 
-namespace Net.Extensions.Auth.Core
+namespace Net.Extensions.OAuth2
 {
     public static class AuthContext
     {
