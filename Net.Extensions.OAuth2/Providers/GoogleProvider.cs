@@ -44,7 +44,7 @@ namespace Net.Extensions.OAuth2.Providers
                 $"&access_type=offline" +
                 $"&prompt=consent";
 
-            var code = OAuth2Helper.GetCodeViaBrowser(authUrl, _options.RedirectUri);
+            var code = await OAuth2Helper.GetCodeViaLocalServerAsync(authUrl, _options.RedirectUri);
 
             _token = await OAuth2Helper.ExchangeCodeForTokenAsync(code, _options);
             _user = await GetUserInfoAsync(_token.AccessToken);
