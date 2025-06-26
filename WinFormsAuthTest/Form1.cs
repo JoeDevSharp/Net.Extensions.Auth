@@ -110,5 +110,17 @@ namespace WinFormsAuthTest
 
             var user = await Connect(provider);
         }
+
+        private async void button8_Click(object sender, EventArgs e)
+        {
+            var provider = new TwitterProvider(
+                clientId: "R2lKWk9xam00dFVHWXNRbWE4SjQ6MTpjaQ",
+                clientSecret: "bbXTBKWfIZO4F-zrYAOwikV8f9ISlZQTvlOPW6Pe4dOfmUxjP0",
+                redirectUri: "http://localhost:60000/",
+                scopes: new[] { "users.read"}
+            );
+
+            var user = await Connect(provider);
+        }
     }
 }
