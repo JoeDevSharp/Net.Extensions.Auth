@@ -28,7 +28,6 @@ namespace Net.Extensions.OAuth2.Providers
                 TokenEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token",
                 UserInfoEndpoint = "https://graph.microsoft.com/oidc/userinfo",
                 Scopes = scopes?.Length > 0 ? scopes : DefaultScopes,
-                TokenResponseFormat = OAuth2TokenResponseFormat.Json
             };
         }
 
@@ -46,7 +45,7 @@ namespace Net.Extensions.OAuth2.Providers
                 $"&scope={Uri.EscapeDataString(scope)}" +
                 "&response_mode=query";
 
-            var code = OAuth2Helper.GetCodeViaBrowser(authUrl, _options.RedirectUri);
+            var code = await OAuth2Helper.GetCodeViaLocalServerAsync(authUrl, _options.RedirectUri);
 
             _token = await OAuth2Helper.ExchangeCodeForTokenAsync(code, _options);
             _user = await GetUserInfoAsync(_token.AccessToken, _options.UserInfoEndpoint);
