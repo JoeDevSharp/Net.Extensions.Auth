@@ -78,7 +78,19 @@ namespace WinFormsAuthTest
                clientId: "584342851386955",
                clientSecret: "ddf72d99ee4cc4b808e7eed4d5f0d55c",
                redirectUri: "http://localhost:60000/",
-               scopes: new[] {"public_profile", "email" }
+               scopes: new[] { "public_profile", "email" }
+           );
+
+            var user = await Connect(provider);
+        }
+
+        private async void button6_Click(object sender, EventArgs e)
+        {
+            var provider = new LinkedInProvider(
+               clientId: "78v0lkqnqimcap",
+               clientSecret: "WPL_AP1.Z3inVkxugyZDCEkJ./CwMHA==",
+               redirectUri: "http://localhost:60000/",
+               scopes: new[] { "openid", "profile", "email" }
            );
 
             var user = await Connect(provider);
