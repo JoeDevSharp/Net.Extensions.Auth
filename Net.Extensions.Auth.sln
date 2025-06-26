@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36203.30
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net.Extensions.OAuth2", "Net.Extensions.OAuth2\Net.Extensions.OAuth2.csproj", "{4C523A48-8166-A55B-878C-5AA0AD6E9D12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsAuthTest", "WinFormsAuthTest\WinFormsAuthTest.csproj", "{8C2781EA-AA4A-E3D1-90EA-BEFCD7FD3B32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C523A48-8166-A55B-878C-5AA0AD6E9D12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C523A48-8166-A55B-878C-5AA0AD6E9D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C523A48-8166-A55B-878C-5AA0AD6E9D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C523A48-8166-A55B-878C-5AA0AD6E9D12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C2781EA-AA4A-E3D1-90EA-BEFCD7FD3B32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C2781EA-AA4A-E3D1-90EA-BEFCD7FD3B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C2781EA-AA4A-E3D1-90EA-BEFCD7FD3B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C2781EA-AA4A-E3D1-90EA-BEFCD7FD3B32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {845FD335-A3A3-44D2-9794-3484A963A823}
+	EndGlobalSection
+EndGlobal
