@@ -1,6 +1,5 @@
 using Net.Extensions.Auth.Core;
-using Net.Extensions.Auth.Providers.OAuth2;
-using System.Threading.Tasks;
+using Net.Extensions.OAuth2.Providers;
 
 namespace WinFormsAuthTest
 {
@@ -11,23 +10,31 @@ namespace WinFormsAuthTest
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
-            Connect().Wait();    
+           await Connect();
         }
 
         private async Task Connect()
         {
-            var provider = new OAuth2Provider(new OAuth2Options
-            {
-                ClientId = "550344567807-kd6kvfomtl9kjr7j4ro1ba8dhgjf02ap.apps.googleusercontent.com",
-                ClientSecret = "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",
-                RedirectUri = "http://localhost:60000/",
-                AuthorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth",
-                TokenEndpoint = "https://oauth2.googleapis.com/token",
-                UserInfoEndpoint = "https://openidconnect.googleapis.com/v1/userinfo",
-                Scopes = new[] { "openid", "email", "profile" }
-            });
+            //var provider = new GoogleProvider(
+            //    "550344567807-kd6kvfomtl9kjr7j4ro1ba8dhgjf02ap.apps.googleusercontent.com",
+            //    "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",
+            //    "http://localhost:60000/"
+            //    );
+
+            //var provider = new GithubProvider(
+            //    "Ov23li0UlNQ2NMmc2qd2",
+            //    "4ebfae36af64935a9b04e01af64dc0a2f58c1098",
+            //    "http://localhost:60000/"
+            //);
+
+            var provider = new MicrosoftProvider(
+                clientId: "f8bcc3f3-eca7-41f8-afe2-6b0dcd9335be",
+                clientSecret: "AM_8Q~AubxG_ejpElOEJwiXxvifXDunYLq3eXcik",
+                redirectUri: "http://localhost:60000/",
+                scopes: new[] { "openid", "profile", "email" }
+            );
 
             AuthContext.RegisterProvider(provider);
 

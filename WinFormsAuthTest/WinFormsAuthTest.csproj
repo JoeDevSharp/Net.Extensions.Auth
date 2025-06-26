@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Net.Extensions.Auth\Net.Extensions.Auth.csproj" />
+    <ProjectReference Include="..\Net.Extensions.OAuth2\Net.Extensions.OAuth2.csproj" />
   </ItemGroup>
 
 </Project>
