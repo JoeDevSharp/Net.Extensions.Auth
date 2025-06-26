@@ -1,83 +1,105 @@
-﻿using Net.Extensions.OAuth2.Enums;
-using Net.Extensions.OAuth2.Interfaces;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Net.Extensions.OAuth2.Enums;
 using Net.Extensions.OAuth2.Models;
-using System.Net;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
-using System.Web;
 
 namespace Net.Extensions.OAuth2
 {
-    internal static class OAuth2Helper
+    public static class OAuth2Helper
     {
-        public static string GetCodeViaBrowser(string authUrl, string redirectUri)
+        public static async Task<string> GetCodeViaLocalServerAsync(string authUrl, string redirectUri, CancellationToken cancellationToken = default)
         {
-            var prefix = redirectUri.EndsWith("/") ? redirectUri : redirectUri + "/";
-            using var listener = new HttpListener();
-            listener.Prefixes.Add(prefix);
-            listener.Start();
+            var uri = new Uri(redirectUri);
+            int port = uri.Port;
+            string path = uri.AbsolutePath;
 
-            Console.WriteLine("🌐 Esperando conexión en: " + prefix);
+            var tcs = new TaskCompletionSource<string>();
 
-            // Abrir navegador
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            var webHost = new WebHostBuilder()
+                .UseKestrel()
+                .UseUrls($"http://localhost:{port}")
+                .Configure(app =>
+                {
+                    app.Run(async context =>
+                    {
+                        if (context.Request.Path == path)
+                        {
+                            var code = context.Request.Query["code"];
+                            if (!string.IsNullOrEmpty(code))
+                            {
+                                tcs.TrySetResult(code);
+                                await context.Response.WriteAsync("Authorization code received. You can close this window.");
+                            }
+                            else
+                            {
+                                await context.Response.WriteAsync("No code received.");
+                            }
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = 404;
+                            await context.Response.WriteAsync("Not found");
+                        }
+                    });
+                })
+                .Build();
+
+            await webHost.StartAsync(cancellationToken);
+
+            // Abre el navegador al URL de autorización
+            OpenBrowser(authUrl);
+
+            using (cancellationToken.Register(() =>
             {
-                FileName = authUrl,
-                UseShellExecute = true
-            });
-
-            // Espera la petición (bloqueante)
-            var context = listener.GetContext();
-            Console.WriteLine("✅ Conexión recibida.");
-
-            // Leer query
-            var query = context.Request.Url?.Query ?? "";
-            var queryParams = HttpUtility.ParseQueryString(query);
-            var code = queryParams["code"];
-
-            // Respuesta HTML que cierra la pestaña automáticamente
-            var html = @"
-                <html>
-                    <body>
-                        <h2>✅ Autenticación completada</h2>
-                        <p>Puede cerrar esta ventana.</p>
-                        <script>
-                            // Intentar cerrar la pestaña después de 1 segundo
-                            setTimeout(() => {
-                                window.open('', '_self', '');
-                                window.close();
-                            }, 1000);
-                        </script>
-                    </body>
-                </html>";
-
-            var buffer = Encoding.UTF8.GetBytes(html);
-
-            context.Response.ContentType = "text/html";
-            context.Response.ContentLength64 = buffer.Length;
-            context.Response.OutputStream.Write(buffer, 0, buffer.Length);
-            context.Response.OutputStream.Close();
-            context.Response.Close();
-
-            listener.Stop();
-
-            if (string.IsNullOrWhiteSpace(code))
-                throw new Exception("❌ No se recibió el código de autorización.");
-
-            return code;
+                tcs.TrySetCanceled();
+            }))
+            {
+                try
+                {
+                    var code = await tcs.Task;
+                    await webHost.StopAsync();
+                    webHost.Dispose();
+                    return code!;
+                }
+                catch
+                {
+                    await webHost.StopAsync();
+                    webHost.Dispose();
+                    throw;
+                }
+            }
         }
 
+        // Método simple para abrir el navegador
+        private static void OpenBrowser(string url)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch
+            {
+                // Ignorar errores
+            }
+        }
 
+      
         public static async Task<OAuth2Token> ExchangeCodeForTokenAsync(string code, OAuth2Options options)
         {
-            using var client = new HttpClient
-            {
-                Timeout = TimeSpan.FromSeconds(15)
-            };
+            using var client = new HttpClient();
 
-            // Construir correctamente los datos como en Postman
-            var dict = new Dictionary<string, string>
+            // GitHub requiere aceptar "application/json" para que devuelva JSON, o es form-urlencoded por defecto
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var parameters = new Dictionary<string, string>
             {
                 ["grant_type"] = "authorization_code",
                 ["code"] = code,
@@ -86,45 +108,37 @@ namespace Net.Extensions.OAuth2
                 ["client_secret"] = options.ClientSecret
             };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, options.TokenEndpoint)
-            {
-                Content = new FormUrlEncodedContent(dict)
-            };
+            var requestContent = new FormUrlEncodedContent(parameters);
 
-            // Añade Accept: application/json solo si se espera JSON
-            if (options.TokenResponseFormat == OAuth2TokenResponseFormat.Json)
+            var response = await client.PostAsync(options.TokenEndpoint, requestContent);
+            if (!response.IsSuccessStatusCode)
             {
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                throw new HttpRequestException($"Error en intercambio de token: {response.StatusCode}");
             }
 
-            var response = await client.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
-                throw new Exception($"Error obteniendo token: {content}");
 
             OAuth2Token token;
 
             if (options.TokenResponseFormat == OAuth2TokenResponseFormat.Json)
             {
-                var payload = JsonDocument.Parse(content).RootElement;
-                token = new OAuth2Token
-                {
-                    AccessToken = payload.GetProperty("access_token").GetString() ?? "",
-                    RefreshToken = payload.TryGetProperty("refresh_token", out var rt) ? rt.GetString() ?? "" : "",
-                    ExpiresAt = DateTime.UtcNow.AddSeconds(payload.GetProperty("expires_in").GetInt32())
-                };
+                // Si la respuesta es JSON (no es el caso típico de GitHub salvo que pidas explícitamente)
+                token = JsonSerializer.Deserialize<OAuth2Token>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
             }
-            else // FormUrlEncoded
+            else
             {
-                var parsed = HttpUtility.ParseQueryString(content);
+                // GitHub responde por defecto en form-url-encoded
+                var queryParams = System.Web.HttpUtility.ParseQueryString(content);
                 token = new OAuth2Token
                 {
-                    AccessToken = parsed["access_token"] ?? "",
-                    RefreshToken = parsed["refresh_token"] ?? "",
-                    ExpiresAt = DateTime.UtcNow.AddSeconds(int.TryParse(parsed["expires_in"], out var sec) ? sec : 3600)
+                    AccessToken = queryParams["access_token"] ?? "",
+                    TokenType = queryParams["token_type"] ?? "",
+                    Scope = queryParams["scope"] ?? ""
                 };
             }
+
+            if (string.IsNullOrEmpty(token.AccessToken))
+                throw new Exception("Token de acceso no recibido.");
 
             return token;
         }
