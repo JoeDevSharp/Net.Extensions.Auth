@@ -34,8 +34,6 @@ namespace WinFormsAuthTest
                 "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",
                 "http://localhost:60000/"
                 );
-
-
             var user = await Connect(provider);
         }
 
@@ -48,7 +46,6 @@ namespace WinFormsAuthTest
             );
 
             var user = await Connect(provider);
-
         }
 
         private async void button3_Click(object sender, EventArgs e)
@@ -61,7 +58,30 @@ namespace WinFormsAuthTest
             );
 
             var user = await Connect(provider);
+        }
 
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            var provider = new AppleProvider(
+               clientId: "f8bcc3f3-eca7-41f8-afe2-6b0dcd9335be",
+               clientSecret: "AM_8Q~AubxG_ejpElOEJwiXxvifXDunYLq3eXcik",
+               redirectUri: "http://localhost:60000/",
+               scopes: new[] { "openid", "profile", "email" }
+           );
+
+            var user = await Connect(provider);
+        }
+
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            var provider = new FacebookProvider(
+               clientId: "584342851386955",
+               clientSecret: "ddf72d99ee4cc4b808e7eed4d5f0d55c",
+               redirectUri: "http://localhost:60000/",
+               scopes: new[] {"public_profile", "email" }
+           );
+
+            var user = await Connect(provider);
         }
     }
 }
