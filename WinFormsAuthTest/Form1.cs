@@ -1,5 +1,7 @@
 
 using Net.Extensions.OAuth2;
+using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Models;
 using Net.Extensions.OAuth2.Providers;
 
 namespace WinFormsAuthTest
@@ -11,25 +13,46 @@ namespace WinFormsAuthTest
             InitializeComponent();
         }
 
-        private async void Form1_Load(object sender, EventArgs e)
+        private async Task<AuthUser?> Connect(IAuthProvider provider)
         {
-           await Connect();
+            AuthContext.RegisterProvider(provider);
+
+            var user = await AuthContext.LoginAsync();
+
+            if (user is null)
+            {
+                return null;
+            }
+
+            return user;
         }
 
-        private async Task Connect()
+        private async void button1_Click(object sender, EventArgs e)
         {
-            //var provider = new GoogleProvider(
-            //    "550344567807-kd6kvfomtl9kjr7j4ro1ba8dhgjf02ap.apps.googleusercontent.com",
-            //    "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",
-            //    "http://localhost:60000/"
-            //    );
+            var provider = new GoogleProvider(
+                "550344567807-kd6kvfomtl9kjr7j4ro1ba8dhgjf02ap.apps.googleusercontent.com",
+                "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",
+                "http://localhost:60000/"
+                );
 
-            //var provider = new GithubProvider(
-            //    "Ov23li0UlNQ2NMmc2qd2",
-            //    "4ebfae36af64935a9b04e01af64dc0a2f58c1098",
-            //    "http://localhost:60000/"
-            //);
 
+            var user = await Connect(provider);
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            var provider = new GithubProvider(
+                "Ov23li0UlNQ2NMmc2qd2",
+                "4ebfae36af64935a9b04e01af64dc0a2f58c1098",
+                "http://localhost:60000/"
+            );
+
+            var user = await Connect(provider);
+
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
             var provider = new MicrosoftProvider(
                 clientId: "f8bcc3f3-eca7-41f8-afe2-6b0dcd9335be",
                 clientSecret: "AM_8Q~AubxG_ejpElOEJwiXxvifXDunYLq3eXcik",
@@ -37,14 +60,8 @@ namespace WinFormsAuthTest
                 scopes: new[] { "openid", "profile", "email" }
             );
 
-            AuthContext.RegisterProvider(provider);
+            var user = await Connect(provider);
 
-            var user = await AuthContext.LoginAsync();
-
-            if (user != null)
-                Console.WriteLine($"Bienvenido {user.Username} ({user.Email})");
-            else
-                Console.WriteLine("Falló la autenticación.");
         }
     }
 }
