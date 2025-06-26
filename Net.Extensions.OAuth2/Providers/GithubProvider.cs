@@ -29,7 +29,6 @@ namespace Net.Extensions.OAuth2.Providers
                 TokenEndpoint = "https://github.com/login/oauth/access_token",
                 UserInfoEndpoint = "https://api.github.com/user",
                 Scopes = scopes?.Length > 0 ? scopes : DefaultScopes,
-                TokenResponseFormat = OAuth2TokenResponseFormat.FormUrlEncoded
             };
         }
 
@@ -46,7 +45,7 @@ namespace Net.Extensions.OAuth2.Providers
                 $"&redirect_uri={Uri.EscapeDataString(redirectUri)}" +
                 $"&scope={Uri.EscapeDataString(scope)}";
 
-            var code = OAuth2Helper.GetCodeViaBrowser(authUrl, _options.RedirectUri);
+            var code = await OAuth2Helper.GetCodeViaLocalServerAsync(authUrl, _options.RedirectUri);
 
             _token = await OAuth2Helper.ExchangeCodeForTokenAsync(code, _options);
             _user = await GetUserInfoAsync(_token.AccessToken, "https://api.github.com/user");
@@ -102,11 +101,6 @@ namespace Net.Extensions.OAuth2.Providers
             _token = null;
             _user = null;
             return Task.CompletedTask;
-        }
-
-        Task<AuthUser?> IAuthProvider.LoginAsync()
-        {
-            throw new NotImplementedException();
         }
     }
 }
