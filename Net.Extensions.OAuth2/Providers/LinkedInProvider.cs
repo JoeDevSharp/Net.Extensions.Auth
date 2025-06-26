@@ -56,20 +56,17 @@ namespace Net.Extensions.OAuth2.Providers
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.DefaultRequestHeaders.Add("X-Restli-Protocol-Version", "2.0.0");
 
-            // 1. Perfil básico
-            var profileJson = await client.GetStringAsync("https://api.linkedin.com/v2/me");
-            var profile = JsonDocument.Parse(profileJson).RootElement;
+            // Obtener perfil
+            var profileResponse = await client.GetStringAsync("https://api.linkedin.com/v2/me");
+            var profileData = JsonDocument.Parse(profileResponse).RootElement;
 
-            string id = profile.GetProperty("id").GetString() ?? "";
-            string firstName = profile.GetProperty("localizedFirstName").GetString() ?? "";
-            string lastName = profile.GetProperty("localizedLastName").GetString() ?? "";
-            string fullName = $"{firstName} {lastName}";
+            // Obtener email
+            var emailResponse = await client.GetStringAsync("https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))");
+            var emailData = JsonDocument.Parse(emailResponse).RootElement;
 
-            // 2. Email
-            var emailJson = await client.GetStringAsync("https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))");
-            var emailRoot = JsonDocument.Parse(emailJson).RootElement;
-            var email = emailRoot
+            var email = emailData
                 .GetProperty("elements")[0]
                 .GetProperty("handle~")
                 .GetProperty("emailAddress")
@@ -77,18 +74,12 @@ namespace Net.Extensions.OAuth2.Providers
 
             return new AuthUser
             {
-                Id = id,
-                Username = fullName,
+                Id = profileData.GetProperty("id").GetString() ?? "",
+                Username = profileData.TryGetProperty("localizedFirstName", out var fn) ? fn.GetString() ?? "" : "",
                 Email = email,
-                Picture = "", // LinkedIn ya no da URL directa sin permisos extra
+                Picture = "", // LinkedIn no da foto en `r_liteprofile` sin permisos extra
                 Roles = new List<string>(),
-                Claims = new Dictionary<string, string>
-                {
-                    { "firstName", firstName },
-                    { "lastName", lastName },
-                    { "fullName", fullName },
-                    { "email", email }
-                }
+                Claims = profileData.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString())
             };
         }
 
