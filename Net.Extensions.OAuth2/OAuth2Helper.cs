@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Net.Extensions.OAuth2.Enums;
 using Net.Extensions.OAuth2.Models;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 
 namespace Net.Extensions.OAuth2
@@ -90,7 +92,37 @@ namespace Net.Extensions.OAuth2
             }
         }
 
-      
+        public static string GenerateCodeVerifier(int length = 64)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~";
+            var rng = RandomNumberGenerator.Create();
+            var bytes = new byte[length];
+            rng.GetBytes(bytes);
+
+            var result = new StringBuilder(length);
+            foreach (var b in bytes)
+                result.Append(chars[b % chars.Length]);
+
+            return result.ToString();
+        }
+
+        public static string GenerateCodeChallenge(string codeVerifier)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.ASCII.GetBytes(codeVerifier);
+            var hash = sha256.ComputeHash(bytes);
+
+            return Base64UrlEncode(hash);
+        }
+
+        private static string Base64UrlEncode(byte[] input)
+        {
+            return Convert.ToBase64String(input)
+                .Replace("+", "-")
+                .Replace("/", "_")
+                .Replace("=", "");
+        }
+
         public static async Task<OAuth2Token> ExchangeCodeForTokenAsync(string code, OAuth2Options options)
         {
             using var client = new HttpClient();
