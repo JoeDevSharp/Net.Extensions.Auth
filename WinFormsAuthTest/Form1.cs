@@ -3,6 +3,7 @@ using Net.Extensions.OAuth2;
 using Net.Extensions.OAuth2.Interfaces;
 using Net.Extensions.OAuth2.Models;
 using Net.Extensions.OAuth2.Providers;
+using Net.Extensions.OAuth2.Providers.Net.Extensions.OAuth2.Providers;
 
 namespace WinFormsAuthTest
 {
@@ -90,7 +91,21 @@ namespace WinFormsAuthTest
                clientId: "78v0lkqnqimcap",
                clientSecret: "WPL_AP1.Z3inVkxugyZDCEkJ./CwMHA==",
                redirectUri: "http://localhost:60000/",
-               scopes: new[] { "openid", "profile", "email" }
+               scopes: new[] { "r_liteprofile", "r_emailaddress" }
+           );
+
+            var user = await Connect(provider);
+        }
+
+        private async void button7_Click(object sender, EventArgs e)
+        {
+            var provider = new KeycloakProvider(
+                baseUrl: "http://localhost:60000/",
+                realm: "test",
+                clientId: "78v0lkqnqimcap",
+                clientSecret: "WPL_AP1.Z3inVkxugyZDCEkJ./CwMHA==",
+                redirectUri: "http://localhost:60000/",
+                scopes: new[] { "r_liteprofile", "r_emailaddress" }
            );
 
             var user = await Connect(provider);
