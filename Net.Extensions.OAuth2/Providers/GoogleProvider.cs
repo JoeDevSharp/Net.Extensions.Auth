@@ -15,6 +15,8 @@ namespace Net.Extensions.OAuth2.Providers
         private AuthUser? _user;
         private static readonly string[] DefaultScopes = new[] { "openid", "email", "profile" };
 
+        public OAuth2Token? Token => _token;
+
         public GoogleProvider(string clientId, string clientSecret, string redirectUri, string[]? scopes = null)
         {
             _options = new OAuth2Options
