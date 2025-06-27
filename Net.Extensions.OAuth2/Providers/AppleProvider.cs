@@ -1,7 +1,6 @@
 ﻿using Net.Extensions.OAuth2.Abstracts;
 using Net.Extensions.OAuth2.Models;
 using Net.Extensions.OAuth2.Utils;
-using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace Net.Extensions.OAuth2.Providers
@@ -95,7 +94,8 @@ namespace Net.Extensions.OAuth2.Providers
                 Username = "", // Apple no da username
                 Picture = "",
                 Roles = new List<string>(),
-                Claims = payload
+                Claims = payload,
+                Token = idToken
             };
         }
 

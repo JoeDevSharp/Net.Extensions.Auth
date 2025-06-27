@@ -7,7 +7,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>JoeDevSharp.$(AssemblyName)</PackageId>
     <Title>JoeDevSharp.$(AssemblyName)</Title>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>JoeDevSharp</Authors>
     <Description>A lightweight and technology-agnostic abstraction layer for authentication in .NET applications.
 

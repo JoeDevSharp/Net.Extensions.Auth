@@ -31,7 +31,6 @@ namespace Net.Extensions.OAuth2.Providers
                 Scopes = scopes?.Length > 0 ? scopes : DefaultScopes,
             };
         }
-        public OAuth2Token? Token => _token;
 
         public async Task<AuthUser?> LoginAsync()
         {
@@ -50,6 +49,7 @@ namespace Net.Extensions.OAuth2.Providers
 
             _token = await OAuth2Helper.ExchangeCodeForTokenAsync(code, _options);
             _user = await GetUserInfoAsync(_token.AccessToken, "https://api.github.com/user");
+            _user.Token = _token.AccessToken;
 
             return _user;
         }

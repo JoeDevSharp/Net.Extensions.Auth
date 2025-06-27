@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JoeDevSharp.Net.Extensions.Auth.Abstractions" Version="1.0.1" />
+    <PackageReference Include="JoeDevSharp.Net.Extensions.Auth.Abstractions" Version="1.0.4" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.12.1" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3296.44" />

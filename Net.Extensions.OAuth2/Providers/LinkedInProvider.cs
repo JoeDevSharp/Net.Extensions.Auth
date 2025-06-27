@@ -81,7 +81,8 @@ namespace Net.Extensions.OAuth2.Providers
                 Email = email,
                 Picture = "", // LinkedIn no da foto en `r_liteprofile` sin permisos extra
                 Roles = new List<string>(),
-                Claims = profileData.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString())
+                Claims = profileData.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString()),
+                Token = accessToken
             };
         }
 

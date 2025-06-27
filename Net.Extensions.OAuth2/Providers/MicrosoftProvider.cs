@@ -74,7 +74,8 @@ namespace Net.Extensions.OAuth2.Providers
                 Email = data.TryGetProperty("email", out var email) ? email.GetString() ?? "" : "",
                 Picture = "", // Microsoft no devuelve avatar en este endpoint
                 Roles = new List<string>(), // generalmente no incluye roles
-                Claims = data.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString())
+                Claims = data.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString()),
+                Token = accessToken
             };
         }
 

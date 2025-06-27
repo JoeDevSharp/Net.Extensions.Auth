@@ -114,7 +114,8 @@ namespace Net.Extensions.OAuth2.Providers
                 Email = "", // Twitter no devuelve email por defecto
                 Picture = "", // Tampoco la foto
                 Roles = new List<string>(),
-                Claims = user.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString())
+                Claims = user.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString()),
+                Token = accessToken
             };
         }
 

@@ -74,7 +74,8 @@ namespace Net.Extensions.OAuth2.Providers
                 Email = data.TryGetProperty("email", out var email) ? email.GetString() ?? "" : "",
                 Picture = data.TryGetProperty("picture", out var pic) ? pic.GetString() ?? "" : "",
                 Roles = new List<string>(), // OIDC de Google no incluye roles
-                Claims = data.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString())
+                Claims = data.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.ToString()),
+                Token = accessToken
             };
         }
 

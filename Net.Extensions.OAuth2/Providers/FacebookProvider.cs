@@ -49,6 +49,7 @@ namespace Net.Extensions.OAuth2.Providers
             _token = await OAuth2Helper.ExchangeCodeForTokenAsync(code, _options);
 
             _user = await GetUserInfoAsync(_token.AccessToken);
+            _user.Token = _token.AccessToken;
 
             return _user;
         }
