@@ -22,6 +22,8 @@ namespace Net.Extensions.OAuth2.Providers
             "tweet.read", "users.read", "offline.access"
         };
 
+        public OAuth2Token? Token => _token;
+
         public TwitterProvider(string clientId, string redirectUri, string? clientSecret = null, string[]? scopes = null)
         {
             var scopesToUse = scopes?.Length > 0 ? scopes : DefaultScopes;

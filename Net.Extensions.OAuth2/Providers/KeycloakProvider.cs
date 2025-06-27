@@ -30,6 +30,7 @@ namespace Net.Extensions.OAuth2.Providers
                 Scopes = scopes?.Length > 0 ? scopes : DefaultScopes
             };
         }
+        public OAuth2Token? Token => _token;
 
         public async Task<AuthUser?> LoginAsync()
         {

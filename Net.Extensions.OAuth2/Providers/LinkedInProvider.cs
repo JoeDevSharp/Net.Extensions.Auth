@@ -30,6 +30,8 @@ namespace Net.Extensions.OAuth2.Providers
             };
         }
 
+        public OAuth2Token? Token => _token;
+
         public async Task<AuthUser?> LoginAsync()
         {
             var clientId = _options.ClientId;

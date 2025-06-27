@@ -20,9 +20,11 @@ namespace Net.Extensions.OAuth2.Providers
 		{
 			Options = options;
 		}
+        public OAuth2Token? Token => _token;
 
-		// Flujo general para login
-		public virtual async Task<AuthUser?> LoginAsync()
+
+        // Flujo general para login
+        public virtual async Task<AuthUser?> LoginAsync()
 		{
 			var authUrl = BuildAuthorizationUrl();
 			var code = await OAuth2Helper.GetCodeViaLocalServerAsync(authUrl, Options.RedirectUri);
