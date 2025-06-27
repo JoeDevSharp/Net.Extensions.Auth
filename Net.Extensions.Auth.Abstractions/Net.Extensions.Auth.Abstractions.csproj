@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>JoeDevSharp.$(AssemblyName)</PackageId>
+    <Title>JoeDevSharp.$(AssemblyName)</Title>
+    <Version>1.0.1</Version>
+    <Authors>JoeDevSharp</Authors>
+    <Description>A lightweight and technology-agnostic abstraction layer for authentication in .NET applications.
+
+This package defines common contracts and models for authentication flows such as OAuth2 and custom providers. It enables seamless integration between multiple libraries (e.g., RestClient, OAuth2, UI, etc.) by decoupling the implementation from the authentication logic.</Description>
+    <PackageProjectUrl>https://github.com/JoeDevSharp</PackageProjectUrl>
+    <PackageIcon>JoeDevSharp.Net.Extensions.icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/JoeDevSharp/Net.Extensions.Auth</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\iCloudDrive\JoeDev\Logos\JoeDevSharp.Net.Extensions.icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -40,4 +40,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Net.Extensions.Auth.Abstractions\Net.Extensions.Auth.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>
