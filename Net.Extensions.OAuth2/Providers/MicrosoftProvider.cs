@@ -1,5 +1,5 @@
 ﻿using Net.Extensions.OAuth2.Enums;
-using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Abstracts;
 using Net.Extensions.OAuth2.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;

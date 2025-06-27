@@ -1,4 +1,4 @@
-﻿using Net.Extensions.OAuth2.Interfaces;
+﻿using Net.Extensions.OAuth2.Abstracts;
 using Net.Extensions.OAuth2.Models;
 
 namespace Net.Extensions.OAuth2

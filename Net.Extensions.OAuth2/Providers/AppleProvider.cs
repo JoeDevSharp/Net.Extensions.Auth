@@ -1,4 +1,4 @@
-﻿using Net.Extensions.OAuth2.Interfaces;
+﻿using Net.Extensions.OAuth2.Abstracts;
 using Net.Extensions.OAuth2.Models;
 using Net.Extensions.OAuth2.Utils;
 using System.Net.Http.Headers;

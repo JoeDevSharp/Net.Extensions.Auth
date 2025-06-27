@@ -1,9 +1,8 @@
 
 using Net.Extensions.OAuth2;
-using Net.Extensions.OAuth2.Interfaces;
+using Net.Extensions.OAuth2.Abstracts;
 using Net.Extensions.OAuth2.Models;
 using Net.Extensions.OAuth2.Providers;
-using Net.Extensions.OAuth2.Providers.Net.Extensions.OAuth2.Providers;
 
 namespace WinFormsAuthTest
 {
