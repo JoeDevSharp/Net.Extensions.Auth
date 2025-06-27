@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageId>JoeDevSharp.$(AssemblyName)</PackageId>
     <Title>JoeDevSharp.$(AssemblyName)</Title>
     <Authors>JoeDevSharp</Authors>
@@ -34,14 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JoeDevSharp.Net.Extensions.Auth.Abstractions" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.12.1" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3296.44" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Net.Extensions.Auth.Abstractions\Net.Extensions.Auth.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
