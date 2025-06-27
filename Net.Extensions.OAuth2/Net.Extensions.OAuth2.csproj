@@ -4,7 +4,34 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <PackageId>JoeDevSharp.$(AssemblyName)</PackageId>
+    <Title>JoeDevSharp.$(AssemblyName)</Title>
+    <Authors>JoeDevSharp</Authors>
+    <Description>Lightweight and extensible OAuth2 authentication framework for .NET, supporting multiple popular providers and enabling easy custom provider implementation.</Description>
+    <PackageProjectUrl>https://github.com/JoeDevSharp</PackageProjectUrl>
+    <PackageIcon>JoeDevSharp.Net.Extensions.icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/JoeDevSharp/Net.Extensions.Auth</RepositoryUrl>
+    <PackageTags>oauth2; authentication; authorization; login; social login; google login; github oauth; microsoft auth; facebook login; linkedin auth; twitter oauth2; keycloak; openid connect; dotnet; csharp; identity; bearer token; access token; oauth2 provider; custom oauth2; reactive auth; net6; net7; winforms auth; cross-platform auth; extensible oauth2</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Providers\CustomOAuth2Provider.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\iCloudDrive\JoeDev\Logos\JoeDevSharp.Net.Extensions.icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="Providers\CustomOAuth2Provider.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
