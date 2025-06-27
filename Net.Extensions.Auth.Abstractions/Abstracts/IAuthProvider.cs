@@ -9,5 +9,6 @@ namespace Net.Extensions.OAuth2.Abstracts
         Task LogoutAsync();
         bool IsAuthenticated { get; }
         AuthUser? CurrentUser { get; }
+        public OAuth2Token? Token { get; }
     }
 }
